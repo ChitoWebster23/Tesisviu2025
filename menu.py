@@ -46,7 +46,7 @@ def ejecutar_template_SQLi(comando):
             print("***********************************************************************************************")
         else:
             print("-----------------------------------------------------------------------------------------------")
-            print(colored("No se encuentran vulnerabilidades", "blue","on_green"))
+            print(colored("No se encuentran vulnerabilidades en esta URL", "blue","on_green"))
             print("***********************************************************************************************")
        
 
