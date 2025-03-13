@@ -4,26 +4,16 @@ import subprocess
 from termcolor import colored
 
 
-def buscar_subdominios(dominio, lista_subdominios, archivo_salida):
-    subdominios_encontrados = []
-    
-    for sub in lista_subdominios:
-        subdominio = f"{sub}.{dominio}"
-        try:
-            # Verifica si el subdominio responde con DNS
-            dns.resolver.resolve(subdominio, "A")
-            print(f"[+] Subdominio encontrado: {subdominio}")
-            subdominios_encontrados.append(subdominio)
-        except (dns.resolver.NXDOMAIN, dns.resolver.NoAnswer, dns.resolver.LifetimeTimeout):
-            pass
-    
-    # Guarda los subdominios en un archivo
-    with open(archivo_salida, "w") as f:
-        for sub in subdominios_encontrados:
-            f.write(sub + "\n")
-    
-    print(f"Subdominios guardados en {archivo_salida}")
+def buscar_subdominios(comando):
+    try:
+        resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
+        print(resultado.stdout)
 
+        with open("ListadoURL.txt", "w") as archivo:
+            print(resultado.stdout, file=archivo)
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error al ejecutar el comando: {e}")
 
  
 def ejecutar_comando_linux(comando):
@@ -75,19 +65,9 @@ def procesar_opcion(opcion):
             
 
             dominio = input("Ingrese el dominio (ejemplo.com): ")
-            archivo_salida = "subdominios_encontrados.txt"
-    
-            # Lista de subdominios comunes (se puede ampliarla)
-            lista_subdominios = ["www", "mail", "ftp", "blog", "admin", "dev", "test", "cpanel", "webmail", "forum", "shop", "api", "beta", 
-             "dashboard", "portal", "secure", "vpn", "help", "support", "cloud", "mobile", "static", "news", "office", "store", 
-            "wiki", "status", "login", "monitor", "reports", "ads", "analytics", "assets", "billing", "chat", "cdn", "config", 
-            "db", "download", "files", "git", "img", "invoice", "mailserver", "members", "my", "node", "panel", "partners", 
-            "payments", "projects", "public", "services", "smtp", "staff", "staging", "sysadmin", "tools", "upload", "user", 
-            "video", "vpn", "web", "www2", "app", "enterprise", "b2b", "devops", "internal", "sso", "auth", "assets", "marketing",
-            "hr", "finance", "pay", "social", "training", "leads", "events", "prod", "testapi", "sandbox", "preprod", "development", 
-            "live", "edge", "gateway", "authserver", "customer", "service", "preview", "backup", "old", "legacy", "new", "demo"]
-            
-            buscar_subdominios(dominio, lista_subdominios, archivo_salida)
+            archivo_salida = "subdominios_encontrados.txt" 
+            comando = "katana -u "+ dominio
+            buscar_subdominios(comando)
 
         case "2":
             print("Seleccionaste la opción 2: SQL Injection")

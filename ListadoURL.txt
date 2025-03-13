@@ -1,4 +1,4 @@
-http://testphp.vulnweb.com/artists.php?artist=2
-https://0a8000710442b64982e0700400c9009d.web-security-academy.net/product?productId=7
-https://0a8000710442b64982e0700400c9009d.web-security-academy.net/filter?category=Gifts
-soyfabian.com
+https://bancochile.cl
+https://www.bancochile.cl/
+https://sitiospublicos.bancochile.cl/personas
+
