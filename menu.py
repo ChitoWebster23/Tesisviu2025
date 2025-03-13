@@ -1,5 +1,4 @@
-import requests
-import dns.resolver
+
 import subprocess
 from termcolor import colored
 
@@ -62,11 +61,10 @@ def mostrar_menu():
 def procesar_opcion(opcion):
     match opcion:
         case "1":
-            
-
+        
             dominio = input("Ingrese el dominio (ejemplo.com): ")
-            archivo_salida = "subdominios_encontrados.txt" 
             comando = "katana -u "+ dominio
+            
             buscar_subdominios(comando)
 
         case "2":
