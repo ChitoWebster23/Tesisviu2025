@@ -1,0 +1,135 @@
+id: login-bruteforce-check
+
+info:
+  name: Login Bruteforce Test
+  author: TuNombre
+  severity: medium
+  description: |
+    Prueba múltiples nombres de usuario en el endpoint de login y marca como vulnerable si la respuesta no contiene "username".
+
+requests:
+  - method: POST
+    path:
+      - "{{BaseURL}}{{endpoint}}"  # Se hace dinámico el endpoint
+
+    body: |
+      username={{user}}&password=Password123  
+
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+
+    payloads:
+      user:
+        - "carlos"
+        - "htb-stdnt"
+        - "root"
+        - "admin"
+        - "test"
+        - "guest"
+        - "info"
+        - "adm"
+        - "mysql"
+        - "user"
+        - "administrator"
+        - "oracle"
+        - "ftp"
+        - "pi"
+        - "puppet"
+        - "ansible"
+        - "ec2-user"
+        - "vagrant"
+        - "azureuser"
+        - "academico"
+        - "acceso"
+        - "access"
+        - "accounting"
+        - "accounts"
+        - "acid"
+        - "activestat"
+        - "ad"
+        - "adam"
+        - "adkit"
+        - "admin"
+        - "administracion"
+        - "administrador"
+        - "administrator"
+        - "administrators"
+        - "admins"
+        - "ads"
+        - "adserver"
+        - "adsl"
+        - "ae"
+        - "af"
+        - "affiliate"
+        - "affiliates"
+        - "afiliados"
+        - "ag"
+        - "agenda"
+        - "agent"
+        - "ai"
+        - "aix"
+        - "ajax"
+        - "ak"
+        - "akamai"
+        - "al"
+        - "alabama"
+        - "alaska"
+        - "albuquerque"
+        - "alerts"
+        - "alpha"
+        - "alterwind"
+        - "am"
+        - "amarillo"
+        - "americas"
+        - "an"
+        - "anaheim"
+        - "analyzer"
+        - "announce"
+        - "announcements"
+        - "antivirus"
+        - "ao"
+        - "ap"
+        - "apache"
+        - "apollo"
+        - "app"
+        - "app01"
+        - "app1"
+        - "apple"
+        - "application"
+        - "applications"
+        - "apps"
+        - "appserver"
+        - "aq"
+        - "ar"
+        - "archie"
+        - "arcsight"
+        - "argentina"
+        - "arizona"
+        - "arkansas"
+        - "arlington"
+        - "as"
+        - "as400"
+        - "asia"
+        - "asterix"
+        - "at"
+        - "athena"
+        - "atlanta"
+        - "atlas"
+        - "att"
+        - "au"
+        - "auction"
+        - "austin"
+        - "auth"
+        - "auto"
+        - "autodiscover"
+
+    matchers:
+      - type: word
+        part: body
+        condition: and
+        words:
+          - "Invalid" 
+
+variables:
+  endpoint: "{{default('/index.php', args.endpoint)}}"  # Se define la variable endpoint con un valor por defecto
