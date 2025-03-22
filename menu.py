@@ -33,6 +33,10 @@ def ejecutar_template_SQLi(comando):
             print("-----------------------------------------------------------------------------------------------")
             print(resultado.stdout)
             print("***********************************************************************************************")
+        elif(resultado.stdout.__contains__("time-based-sqli")):
+            print("-----------------------------------------------------------------------------------------------")
+            print(resultado.stdout)
+            print("***********************************************************************************************")
         else:
             print("-----------------------------------------------------------------------------------------------")
             print(colored("No se encuentran vulnerabilidades en esta URL", "blue","on_green"))
@@ -45,7 +49,7 @@ def ejecutar_template_SQLi(comando):
 
 def mostrar_menu():
     print("\nMenú de Opciones:")
-    print("1. Determinar Subdominios")
+    print("1. Realizar Crawling")
     print("2. SQL Inyection")
     print("3. ByPass Authentication")
     print("4. Path Traversal ")
@@ -73,13 +77,29 @@ def procesar_opcion(opcion):
             # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
             nombre_archivo = "ListadoURL.txt"
 
+            print("\nElija el tipo de ataque SQLi:")
+            print("1. Basado el Payload clásicos (or 1=1 por ejemplo)")
+            print("2. Basado en tiempo")
+
+            opcion = input("Seleccione una opción (1-2): ")
+
             try:
-                # Intentar abrir el archivo en modo lectura
-                with open(nombre_archivo, "r", encoding="utf-8") as archivo:
-                # Leer línea por línea e imprimir
-                    for linea in archivo:
-                        URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                        ejecutar_template_SQLi("nuclei -u "+URL+" -t templatesNuclei/SQLi/SQLi.yaml -dast")
+                if opcion == "1":
+
+
+                    # Intentar abrir el archivo en modo lectura
+                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                    # Leer línea por línea e imprimir
+                        for linea in archivo:
+                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                            ejecutar_template_SQLi("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/SQLi.yaml -dast")
+                else:
+                    # Intentar abrir el archivo en modo lectura
+                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                    # Leer línea por línea e imprimir
+                        for linea in archivo:
+                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                            ejecutar_template_SQLi("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/time-based-sqli.yaml -dast")
 
             except FileNotFoundError:
                 print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
