@@ -113,7 +113,45 @@ def procesar_opcion(opcion):
             #ejecutar_comando_linux("ping -c 3 google.com")
 
         case "3":
-            print("Seleccionaste la opción 3")
+            
+            # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
+            nombre_archivo = "ListadoURL.txt"
+
+            print("\nElija el tipo de Bypass Authentication:")
+            print("1. Basado el Payload clásicos (or 1=1 por ejemplo)")
+            print("2. Basado en tiempo")
+
+            opcion = input("Seleccione una opción (1-2): ")
+
+            try:
+                if opcion == "1":
+
+
+                    # Intentar abrir el archivo en modo lectura
+                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                    # Leer línea por línea e imprimir
+                        for linea in archivo:
+                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                            ejecutar_template_SQLi("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/SQLi.yaml -dast")
+                else:
+                    # Intentar abrir el archivo en modo lectura
+                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                    # Leer línea por línea e imprimir
+                        for linea in archivo:
+                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                            ejecutar_template_SQLi("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/time-based-sqli.yaml -dast")
+
+            except FileNotFoundError:
+                print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
+            except PermissionError:
+                print(f"Error: No tienes permisos para leer el archivo '{nombre_archivo}'.")
+            except Exception as e:
+                print(f"Error inesperado: {e}")
+
+
+
+
+
         case "4":
             print("Seleccionaste la opción 4")
         case "5":
