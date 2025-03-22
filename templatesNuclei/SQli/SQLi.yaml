@@ -45,6 +45,7 @@ http:
         - " or 1=1 -- -"
         - " or 1=1; -- -"
         - "and 1=1; -- -"
+        - "' or '1'='1' #"
 
     fuzzing:
       - part: query

