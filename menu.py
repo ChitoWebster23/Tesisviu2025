@@ -1,6 +1,7 @@
 
 import subprocess
 from termcolor import colored
+import json
 
 
 def buscar_subdominios(comando):
@@ -13,6 +14,32 @@ def buscar_subdominios(comando):
 
     except subprocess.CalledProcessError as e:
         print(f"Error al ejecutar el comando: {e}")
+
+def buscar_conf_template(titleTemplate, opciónTemplate):
+    
+    try:
+
+        # Cargar el archivo JSON
+        with open("templatesconf.json", "r") as file:
+            data = json.load(file)
+
+
+        # Verificar si el título existe en los datos
+        if titleTemplate in data:
+            for template in data[titleTemplate]:
+                if template.get("numero") == opciónTemplate:
+                    return {
+                        "path": template.get("path"),
+                        "idtemplate": template.get("idtemplate")
+                    }
+        return None
+    except FileNotFoundError:
+        print("El archivo templates.json no se encuentra.")
+    except json.JSONDecodeError:
+        print("El archivo templates.json tiene un formato incorrecto.")
+    except Exception as e:
+        print(f"Error inesperado: {e}")
+
 
  
 def ejecutar_comando_linux(comando):
@@ -98,6 +125,7 @@ def procesar_opcion(opcion):
 
             # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
             nombre_archivo = "ListadoURL.txt"
+            titulovuln = "SQLinjection"
 
             print("\nElija el tipo de ataque SQLi:")
             print("1. Basado en Payload clásicos (or 1=1 por ejemplo)")
@@ -107,6 +135,14 @@ def procesar_opcion(opcion):
 
             try:
                 if opcion == "1":
+
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
+
+                    print(f"Path: {PathTemplate}")
+                    print(f"Path: {idTemplate}")
 
 
                     # Intentar abrir el archivo en modo lectura

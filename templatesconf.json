@@ -1,0 +1,26 @@
+{
+  "SQLinjection": [
+    {
+      "numero": 1,
+      "path": "/home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/SQLi.yaml",
+      "idtemplate": "sqli-boolean-based-get"
+    },
+    {
+      "numero": 2,
+      "path": "/home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/time-based-sqli.yaml",
+      "idtemplate": "time-based-sqli"
+    }
+  ],
+  "BypassAuthentication": [
+    {
+      "numero": 1,
+      "path": "/home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml",
+      "idtemplate": "login-bruteforce-check"
+    },
+    {
+      "numero": 2,
+      "path": "/home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml",
+      "idtemplate": "sqli-boolean-based-post"
+    }
+  ]
+}
