@@ -55,7 +55,7 @@ def ejecutar_template_ByPassAuth(comando):
             print("-----------------------------------------------------------------------------------------------")
             print(resultado.stdout)
             print("***********************************************************************************************")
-        elif(resultado.stdout.__contains__("time-based-sqli")):
+        elif(resultado.stdout.__contains__("sqli-boolean-based-post")):
             print("-----------------------------------------------------------------------------------------------")
             print(resultado.stdout)
             print("***********************************************************************************************")
@@ -141,7 +141,7 @@ def procesar_opcion(opcion):
 
             print("\nElija el tipo de Bypass Authentication:")
             print("1. Basado en Fuerza Bruta")
-            print("2. Basado Injección SQL")
+            print("2. Basado Injección SQL para saltar autenticación")
 
             opcion = input("Seleccione una opción (1-2): ")
 
@@ -162,7 +162,7 @@ def procesar_opcion(opcion):
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/time-based-sqli.yaml -dast")
+                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml")
 
             except FileNotFoundError:
                 print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
