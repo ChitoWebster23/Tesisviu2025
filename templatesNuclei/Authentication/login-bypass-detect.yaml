@@ -1,11 +1,11 @@
 id: login-bruteforce-check
 
 info:
-  name: Login Bruteforce Test
-  author: TuNombre
+  name: Login Bruteforce T
+  author: Luis Webster
   severity: medium
   description: |
-    Prueba múltiples nombres de usuario en el endpoint de login y marca como vulnerable si la respuesta no contiene "username".
+    Prueba múltiples nombres de usuario en el endpoint de login y marca como vulnerable si la respuesta no contiene la palabra ingresada por paramétro.
 
 requests:
   - method: POST

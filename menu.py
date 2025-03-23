@@ -46,6 +46,28 @@ def ejecutar_template_SQLi(comando):
     except subprocess.CalledProcessError as e:
         print(f"Error al ejecutar el comando: {e}")
 
+def ejecutar_template_ByPassAuth(comando):
+    try:
+        print(comando)
+        resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
+
+        if(resultado.stdout.__contains__("login-bruteforce-check")):
+            print("-----------------------------------------------------------------------------------------------")
+            print(resultado.stdout)
+            print("***********************************************************************************************")
+        elif(resultado.stdout.__contains__("time-based-sqli")):
+            print("-----------------------------------------------------------------------------------------------")
+            print(resultado.stdout)
+            print("***********************************************************************************************")
+        else:
+            print("-----------------------------------------------------------------------------------------------")
+            print(colored("No se encuentran vulnerabilidades en esta URL", "blue","on_green"))
+            print("***********************************************************************************************")
+       
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error al ejecutar el comando: {e}")
+
 
 def mostrar_menu():
     print("\nMenú de Opciones:")
@@ -78,8 +100,8 @@ def procesar_opcion(opcion):
             nombre_archivo = "ListadoURL.txt"
 
             print("\nElija el tipo de ataque SQLi:")
-            print("1. Basado el Payload clásicos (or 1=1 por ejemplo)")
-            print("2. Basado en tiempo")
+            print("1. Basado en Payload clásicos (or 1=1 por ejemplo)")
+            print("2. Basado en timmpo")
 
             opcion = input("Seleccione una opción (1-2): ")
 
@@ -118,28 +140,29 @@ def procesar_opcion(opcion):
             nombre_archivo = "ListadoURL.txt"
 
             print("\nElija el tipo de Bypass Authentication:")
-            print("1. Basado el Payload clásicos (or 1=1 por ejemplo)")
-            print("2. Basado en tiempo")
+            print("1. Basado en Fuerza Bruta")
+            print("2. Basado Injección SQL")
 
             opcion = input("Seleccione una opción (1-2): ")
 
             try:
                 if opcion == "1":
 
+                    path = input("ingrese el path a evaluar (por ejemplo: login o index.php): ")  
 
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_SQLi("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/SQLi.yaml -dast")
+                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path)
                 else:
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_SQLi("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/time-based-sqli.yaml -dast")
+                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/time-based-sqli.yaml -dast")
 
             except FileNotFoundError:
                 print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
