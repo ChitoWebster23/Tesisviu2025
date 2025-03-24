@@ -58,7 +58,7 @@ def ejecutar_comando_linux(comando):
         print(f"Error al ejecutar el comando: {e}")
 
 
-def ejecutar_template_SQLi(comando,titleTemplate):
+def ejecutar_template(comando,titleTemplate):
     try:
     
         
@@ -145,29 +145,26 @@ def procesar_opcion(opcion):
                     PathTemplate = confTemplate['path']
                     idTemplate = confTemplate['idtemplate']
 
-                   # print(f"Path: {PathTemplate}")
-                   # print(f"idTemplate: {idTemplate}")
-
 
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_SQLi("nuclei -u "+URL+" -t "+PathTemplate+" -dast",idTemplate)
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -dast",idTemplate)
                 else:
 
                     confTemplate = buscar_conf_template(titulovuln,opcion)
 
                     PathTemplate = confTemplate['path']
                     idTemplate = confTemplate['idtemplate']
-                    
+
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_SQLi("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/time-based-sqli.yaml -dast")
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -dast",idTemplate)
 
             except FileNotFoundError:
                 print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
