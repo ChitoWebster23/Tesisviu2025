@@ -22,5 +22,17 @@
       "path": "/home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml",
       "idtemplate": "sqli-boolean-based-post"
     }
+  ],
+  "XSS": [
+    {
+      "numero": 1,
+      "path":"C:/users/fabia/tesisviu2025/templatesNuclei/XSS/xSS_REFLEJADO.yaml",
+      "idtemplate": "XSS-REFLEJADO"
+    },
+    {
+      "numero": 2,
+      "path":"C:/users/fabia/tesisviu2025/templatesNuclei/XSS/XSS_DOM-BASED.yaml",
+      "idtemplate": "xss-dom-based"
+    }
   ]
 }

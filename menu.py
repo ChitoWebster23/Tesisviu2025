@@ -66,6 +66,8 @@ def ejecutar_template(comando,titleTemplate):
 
         if(resultado.stdout.__contains__(titleTemplate)):
             print("-----------------------------------------------------------------------------------------------")
+            print(colored("Se identificaron las siguientes vulnerabilidades: ", "black","on_red"))
+            print("-----------------------------------------------------------------------------------------------")
             print(resultado.stdout)
             print("***********************************************************************************************")
         else:
@@ -139,7 +141,7 @@ def procesar_opcion(opcion):
 
             try:
                 if opcion == "1":
-
+                    print("Analizando Vulnerabilidades...")
                     confTemplate = buscar_conf_template(titulovuln,opcion)
 
                     PathTemplate = confTemplate['path']
@@ -152,19 +154,23 @@ def procesar_opcion(opcion):
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
                             ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -dast",idTemplate)
+                elif opcion == "2":
+                    print("Analizando Vulnerabilidades...")
+
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
+
+                    # Intentar abrir el archivo en modo lectura
+                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                    # Leer línea por línea e imprimir
+                        for linea in archivo:
+                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -dast",idTemplate)
+
                 else:
-
-                    confTemplate = buscar_conf_template(titulovuln,opcion)
-
-                    PathTemplate = confTemplate['path']
-                    idTemplate = confTemplate['idtemplate']
-
-                    # Intentar abrir el archivo en modo lectura
-                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
-                    # Leer línea por línea e imprimir
-                        for linea in archivo:
-                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -dast",idTemplate)
+                    print("Opcion no valida")
 
             except FileNotFoundError:
                 print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
@@ -214,10 +220,6 @@ def procesar_opcion(opcion):
             except Exception as e:
                 print(f"Error inesperado: {e}")
 
-
-
-
-
         case "4":
             print("Seleccionaste la opción 4")
         case "5":
@@ -225,7 +227,56 @@ def procesar_opcion(opcion):
         case "6":
             print("Seleccionaste la opción 6")
         case "7":
-            print("Seleccionaste la opción 7")
+            print("Seleccionaste la opción 7: XSS")
+            # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
+            nombre_archivo = "ListadoURL.txt"
+            titulovuln = "XSS"
+
+            print("\nElija el tipo de ataque XSS:")
+            print("1. XSS reflejado")
+            print("2. XSS based DOM")
+
+            opcion = input("Seleccione una opción (1-2): ")
+
+            try:
+                if opcion == "1":
+                    print("Analizando Vulnerabilidades...")
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
+
+
+                    # Intentar abrir el archivo en modo lectura
+                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                    # Leer línea por línea e imprimir
+                        for linea in archivo:
+                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+"",idTemplate)
+                elif opcion == "2":
+                    print("Analizando Vulnerabilidades...")
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
+
+                    # Intentar abrir el archivo en modo lectura
+                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                    # Leer línea por línea e imprimir
+                        for linea in archivo:
+                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+"",idTemplate)
+
+                else:
+                    print("Opcion no valida")
+
+            except FileNotFoundError:
+                print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
+            except PermissionError:
+                print(f"Error: No tienes permisos para leer el archivo '{nombre_archivo}'.")
+            except Exception as e:
+                print(f"Error inesperado: {e}")
+
         case "8":
             print("Seleccionaste la opción 8")
         case "9":

