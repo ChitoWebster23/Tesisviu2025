@@ -15,7 +15,7 @@ def buscar_subdominios(comando):
     except subprocess.CalledProcessError as e:
         print(f"Error al ejecutar el comando: {e}")
 
-def buscar_conf_template(titleTemplate, opciónTemplate):
+def buscar_conf_template(titleTemplate, opcionTemplate):
     
     try:
 
@@ -23,16 +23,23 @@ def buscar_conf_template(titleTemplate, opciónTemplate):
         with open("templatesconf.json", "r") as file:
             data = json.load(file)
 
-
-        # Verificar si el título existe en los datos
+         # Verificar si el título existe en los datos
         if titleTemplate in data:
-            for template in data[titleTemplate]:
-                if template.get("numero") == opciónTemplate:
+            
+            templates = data[titleTemplate]
+
+            for template in templates:
+            
+                if int(template.get("numero")) == int(opcionTemplate):
+
                     return {
                         "path": template.get("path"),
                         "idtemplate": template.get("idtemplate")
                     }
+                
+        print("No se encontró el template solicitado.")
         return None
+        
     except FileNotFoundError:
         print("El archivo templates.json no se encuentra.")
     except json.JSONDecodeError:
@@ -51,16 +58,13 @@ def ejecutar_comando_linux(comando):
         print(f"Error al ejecutar el comando: {e}")
 
 
-def ejecutar_template_SQLi(comando):
+def ejecutar_template_SQLi(comando,titleTemplate):
     try:
-        print(comando)
+    
+        
         resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
 
-        if(resultado.stdout.__contains__("sqli-boolean-based-get")):
-            print("-----------------------------------------------------------------------------------------------")
-            print(resultado.stdout)
-            print("***********************************************************************************************")
-        elif(resultado.stdout.__contains__("time-based-sqli")):
+        if(resultado.stdout.__contains__(titleTemplate)):
             print("-----------------------------------------------------------------------------------------------")
             print(resultado.stdout)
             print("***********************************************************************************************")
@@ -141,8 +145,8 @@ def procesar_opcion(opcion):
                     PathTemplate = confTemplate['path']
                     idTemplate = confTemplate['idtemplate']
 
-                    print(f"Path: {PathTemplate}")
-                    print(f"Path: {idTemplate}")
+                   # print(f"Path: {PathTemplate}")
+                   # print(f"idTemplate: {idTemplate}")
 
 
                     # Intentar abrir el archivo en modo lectura
@@ -150,7 +154,7 @@ def procesar_opcion(opcion):
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_SQLi("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/SQli/SQLi.yaml -dast")
+                            ejecutar_template_SQLi("nuclei -u "+URL+" -t "+PathTemplate+" -dast",idTemplate)
                 else:
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:

@@ -1,2 +1,1 @@
-http://83.136.255.44:56211/
-http://172.16.127.141/mutillidae/src/index.php?page=login.php
+https://0acf00a7048746dc826df2310088004a.web-security-academy.net/filter?category=Pets
