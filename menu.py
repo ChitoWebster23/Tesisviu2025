@@ -156,6 +156,12 @@ def procesar_opcion(opcion):
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
                             ejecutar_template_SQLi("nuclei -u "+URL+" -t "+PathTemplate+" -dast",idTemplate)
                 else:
+
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
+                    
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
