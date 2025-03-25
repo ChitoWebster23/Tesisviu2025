@@ -4,7 +4,7 @@ from termcolor import colored
 import json
 
 
-def buscar_subdominios(comando):
+def buscar_Crawling(comando):
     try:
         resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
         print(resultado.stdout)
@@ -47,15 +47,6 @@ def buscar_conf_template(titleTemplate, opcionTemplate):
     except Exception as e:
         print(f"Error inesperado: {e}")
 
-
- 
-def ejecutar_comando_linux(comando):
-    try:
-        resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
-        print(resultado.stdout)
-
-    except subprocess.CalledProcessError as e:
-        print(f"Error al ejecutar el comando: {e}")
 
 
 def ejecutar_template(comando,titleTemplate):
@@ -124,7 +115,7 @@ def procesar_opcion(opcion):
             dominio = input("Ingrese el dominio (ejemplo.com): ")
             comando = "katana -u "+ dominio
             
-            buscar_subdominios(comando)
+            buscar_Crawling(comando)
 
         case "2":
             print("Seleccionaste la opción 2: SQL Injection")
