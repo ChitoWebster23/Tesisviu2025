@@ -103,7 +103,6 @@ def mostrar_menu():
     print("6. Command Injection")
     print("7. XSS ")
     print("8. CSRF")
-    print("9. Command Injection")
     
     opcion = input("Seleccione una opción (1-9): ")
     return opcion
@@ -212,7 +211,37 @@ def procesar_opcion(opcion):
                 print(f"Error inesperado: {e}")
 
         case "4":
-            print("Seleccionaste la opción 4")
+            
+            # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
+            nombre_archivo = "ListadoURL.txt"
+
+
+            try:
+                if opcion == "1":
+
+                    path = input("ingrese el path a evaluar (por ejemplo: login o index.php): ")  
+
+                    # Intentar abrir el archivo en modo lectura
+                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                    # Leer línea por línea e imprimir
+                        for linea in archivo:
+                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path)
+                else:
+                    # Intentar abrir el archivo en modo lectura
+                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+                    # Leer línea por línea e imprimir
+                        for linea in archivo:
+                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml")
+
+            except FileNotFoundError:
+                print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
+            except PermissionError:
+                print(f"Error: No tienes permisos para leer el archivo '{nombre_archivo}'.")
+            except Exception as e:
+                print(f"Error inesperado: {e}")
+
         case "5":
             print("Seleccionaste la opción 5")
         case "6":
