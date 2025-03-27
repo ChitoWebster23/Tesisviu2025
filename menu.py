@@ -81,7 +81,7 @@ def mostrar_menu():
     print("7. XSS ")
     print("8. CSRF")
     
-    opcion = input("Seleccione una opción (1-9): ")
+    opcion = input("Seleccione una opción (1-8): ")
     return opcion
 
 def procesar_opcion(opcion):
@@ -259,7 +259,9 @@ def procesar_opcion(opcion):
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
                             ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+"",idTemplate)
+                
                 elif opcion == "2":
+
                     print("Analizando Vulnerabilidades...")
                     confTemplate = buscar_conf_template(titulovuln,opcion)
 
@@ -285,8 +287,6 @@ def procesar_opcion(opcion):
 
         case "8":
             print("Seleccionaste la opción 8")
-        case "9":
-            print("Seleccionaste la opción 9")
         case _:
             print("Opción no válida. Inténtalo nuevamente.")
 
