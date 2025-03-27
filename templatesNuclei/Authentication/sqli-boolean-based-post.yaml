@@ -14,7 +14,7 @@ http:
     path: 
       - "{{BaseURL}}"
    
-    body: "admin={{empty}}"
+    body: "username={{empty}}"
 
     payloads:
       empty:
@@ -30,7 +30,7 @@ http:
     path: 
       - "{{BaseURL}}"
    
-    body: "admin={{injection}}"
+    body: "username={{injection}}"
 
     payloads:
       injection:

@@ -47,12 +47,11 @@ def buscar_conf_template(titleTemplate, opcionTemplate):
     except Exception as e:
         print(f"Error inesperado: {e}")
 
-
-
 def ejecutar_template(comando,titleTemplate):
     try:
     
-        
+        print(comando)
+
         resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
 
         if(resultado.stdout.__contains__(titleTemplate)):
@@ -170,13 +169,11 @@ def procesar_opcion(opcion):
                 print(f"Error inesperado: {e}")
 
 
-
-            #ejecutar_comando_linux("ping -c 3 google.com")
-
         case "3":
             
             # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
             nombre_archivo = "ListadoURL.txt"
+            titulovuln = "BypassAuthentication"
 
             print("\nElija el tipo de Bypass Authentication:")
             print("1. Basado en Fuerza Bruta")
@@ -187,21 +184,36 @@ def procesar_opcion(opcion):
             try:
                 if opcion == "1":
 
-                    path = input("ingrese el path a evaluar (por ejemplo: login o index.php): ")  
+                    path = input("ingrese el path a evaluar (por ejemplo: login o index.php): ")
+
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
 
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path)
-                else:
+                            ejecutar_template("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path,idTemplate)
+                
+                elif opcion == "2":
+                    
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
+
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml")
+                            ejecutar_template("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml",idTemplate)
+
+                else:
+                    print("Opcion no valida")
 
             except FileNotFoundError:
                 print(f"Error: El archivo '{nombre_archivo}' no se encontró.")

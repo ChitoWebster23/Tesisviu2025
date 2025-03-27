@@ -1,1 +1,3 @@
-https://0a5600bb0427c108825fe30200a000c0.web-security-academy.net/
+94.237.61.100:48777
+http://172.16.127.141/mutillidae/src/index.php?page=user-info.php
+http://172.16.127.141/mutillidae/src/index.php?page=login.php
