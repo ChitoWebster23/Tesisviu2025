@@ -34,5 +34,12 @@
       "path":"C:/users/fabia/tesisviu2025/templatesNuclei/XSS/XSS_DOM-BASED.yaml",
       "idtemplate": "xss-dom-based"
     }
+  ],
+  "PathTraversal": [
+    {
+      "numero": 1,
+      "path": "/home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/PathTraversal/general-path-traversal.yaml",
+      "idtemplate": "Path-Traversal-HTTP2-HTTP11"
+    }
   ]
 }

@@ -1,3 +1,2 @@
-94.237.61.100:48777
-http://172.16.127.141/mutillidae/src/index.php?page=user-info.php
-http://172.16.127.141/mutillidae/src/index.php?page=login.php
+https://0afd00f30489761b81abfc3f00690046.web-security-academy.net/image?filename=
+http://172.16.127.141/mutillidae/src/index.php?page=

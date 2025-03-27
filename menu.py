@@ -174,7 +174,7 @@ def procesar_opcion(opcion):
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path,idTemplate)
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -var endpoint=/"+path,idTemplate)
                 
                 elif opcion == "2":
                     
@@ -188,7 +188,7 @@ def procesar_opcion(opcion):
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml",idTemplate)
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate,idTemplate)
 
                 else:
                     print("Opcion no valida")
@@ -208,13 +208,17 @@ def procesar_opcion(opcion):
             opcion = 1
 
             try:
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
                 
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path)
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate,idTemplate)
                
 
             except FileNotFoundError:
