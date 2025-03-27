@@ -69,28 +69,6 @@ def ejecutar_template(comando,titleTemplate):
     except subprocess.CalledProcessError as e:
         print(f"Error al ejecutar el comando: {e}")
 
-def ejecutar_template_ByPassAuth(comando):
-    try:
-        print(comando)
-        resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
-
-        if(resultado.stdout.__contains__("login-bruteforce-check")):
-            print("-----------------------------------------------------------------------------------------------")
-            print(resultado.stdout)
-            print("***********************************************************************************************")
-        elif(resultado.stdout.__contains__("sqli-boolean-based-post")):
-            print("-----------------------------------------------------------------------------------------------")
-            print(resultado.stdout)
-            print("***********************************************************************************************")
-        else:
-            print("-----------------------------------------------------------------------------------------------")
-            print(colored("No se encuentran vulnerabilidades en esta URL", "blue","on_green"))
-            print("***********************************************************************************************")
-       
-
-    except subprocess.CalledProcessError as e:
-        print(f"Error al ejecutar el comando: {e}")
-
 
 def mostrar_menu():
     print("\nMenú de Opciones:")
@@ -226,26 +204,18 @@ def procesar_opcion(opcion):
             
             # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
             nombre_archivo = "ListadoURL.txt"
-
+            titulovuln = "PathTraversal"
+            opcion = 1
 
             try:
-                if opcion == "1":
-
-                    path = input("ingrese el path a evaluar (por ejemplo: login o index.php): ")  
-
+                
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path)
-                else:
-                    # Intentar abrir el archivo en modo lectura
-                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
-                    # Leer línea por línea e imprimir
-                        for linea in archivo:
-                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml")
+                            ejecutar_template("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path)
+               
 
             except FileNotFoundError:
                 print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
