@@ -47,39 +47,16 @@ def buscar_conf_template(titleTemplate, opcionTemplate):
     except Exception as e:
         print(f"Error inesperado: {e}")
 
-
-
 def ejecutar_template(comando,titleTemplate):
     try:
     
-        
+        print(comando)
+
         resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
 
         if(resultado.stdout.__contains__(titleTemplate)):
             print("-----------------------------------------------------------------------------------------------")
             print(colored("Se identificaron las siguientes vulnerabilidades: ", "black","on_red"))
-            print("-----------------------------------------------------------------------------------------------")
-            print(resultado.stdout)
-            print("***********************************************************************************************")
-        else:
-            print("-----------------------------------------------------------------------------------------------")
-            print(colored("No se encuentran vulnerabilidades en esta URL", "blue","on_green"))
-            print("***********************************************************************************************")
-       
-
-    except subprocess.CalledProcessError as e:
-        print(f"Error al ejecutar el comando: {e}")
-
-def ejecutar_template_ByPassAuth(comando):
-    try:
-        print(comando)
-        resultado = subprocess.run(comando, shell=True, capture_output=True, text=True)
-
-        if(resultado.stdout.__contains__("login-bruteforce-check")):
-            print("-----------------------------------------------------------------------------------------------")
-            print(resultado.stdout)
-            print("***********************************************************************************************")
-        elif(resultado.stdout.__contains__("sqli-boolean-based-post")):
             print("-----------------------------------------------------------------------------------------------")
             print(resultado.stdout)
             print("***********************************************************************************************")
@@ -104,7 +81,7 @@ def mostrar_menu():
     print("7. XSS ")
     print("8. CSRF")
     
-    opcion = input("Seleccione una opción (1-9): ")
+    opcion = input("Seleccione una opción (1-8): ")
     return opcion
 
 def procesar_opcion(opcion):
@@ -170,13 +147,11 @@ def procesar_opcion(opcion):
                 print(f"Error inesperado: {e}")
 
 
-
-            #ejecutar_comando_linux("ping -c 3 google.com")
-
         case "3":
             
             # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
             nombre_archivo = "ListadoURL.txt"
+            titulovuln = "BypassAuthentication"
 
             print("\nElija el tipo de Bypass Authentication:")
             print("1. Basado en Fuerza Bruta")
@@ -187,21 +162,36 @@ def procesar_opcion(opcion):
             try:
                 if opcion == "1":
 
-                    path = input("ingrese el path a evaluar (por ejemplo: login o index.php): ")  
+                    path = input("ingrese el path a evaluar (por ejemplo: login o index.php): ")
+
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
 
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path)
-                else:
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -var endpoint=/"+path,idTemplate)
+                
+                elif opcion == "2":
+                    
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
+
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
+
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml")
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate,idTemplate)
+
+                else:
+                    print("Opcion no valida")
 
             except FileNotFoundError:
                 print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
@@ -214,26 +204,22 @@ def procesar_opcion(opcion):
             
             # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
             nombre_archivo = "ListadoURL.txt"
-
+            titulovuln = "PathTraversal"
+            opcion = 1
 
             try:
-                if opcion == "1":
+                    confTemplate = buscar_conf_template(titulovuln,opcion)
 
-                    path = input("ingrese el path a evaluar (por ejemplo: login o index.php): ")  
-
+                    PathTemplate = confTemplate['path']
+                    idTemplate = confTemplate['idtemplate']
+                
                     # Intentar abrir el archivo en modo lectura
                     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/login-bypass-detect.yaml -var endpoint=/"+path)
-                else:
-                    # Intentar abrir el archivo en modo lectura
-                    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
-                    # Leer línea por línea e imprimir
-                        for linea in archivo:
-                            URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template_ByPassAuth("nuclei -u "+URL+" -t /home/kali/Documents/tesisgit/Tesisviu2025/templatesNuclei/Authentication/sqli-boolean-based-post.yaml")
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate,idTemplate)
+               
 
             except FileNotFoundError:
                 print(f"Error: El archivo '{nombre_archivo}' no se encontró.")
@@ -273,7 +259,9 @@ def procesar_opcion(opcion):
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
                             ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+"",idTemplate)
+                
                 elif opcion == "2":
+
                     print("Analizando Vulnerabilidades...")
                     confTemplate = buscar_conf_template(titulovuln,opcion)
 
@@ -299,8 +287,6 @@ def procesar_opcion(opcion):
 
         case "8":
             print("Seleccionaste la opción 8")
-        case "9":
-            print("Seleccionaste la opción 9")
         case _:
             print("Opción no válida. Inténtalo nuevamente.")
 
