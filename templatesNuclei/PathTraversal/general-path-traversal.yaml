@@ -1,12 +1,11 @@
 id: Path-Traversal-HTTP2-HTTP11
 
 info:
-  name: Path Traversal (HTTP/2 -> HTTP/1.1)
+  name: Path Traversal (HTTP/2 - HTTP/1.1)
   author: chitowebster
   severity: medium
-  description: Path traversal vulnerability checking HTTP/2 first, then HTTP/1.1
+  description: Vulnerabilidad Path traversal cheackeando una petición HTTP/2 primero, luego HTTP/1.1
   reference:
-    - https://
   tags: path-traversal
 
 http:
