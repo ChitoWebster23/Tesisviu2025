@@ -12,6 +12,7 @@ requests:
     path:
       - "{{BaseURL}}/?search=<script>alert(1)</script>"
       - "{{BaseURL}}/?search=%3Cscript%3Ealert(1)%3C/script%3E"
+      - "{{BaseURL}}/?search=<img src=x onerror=alert(1)>"
       - "{{BaseURL}}/?search=<svg onload=alert(1)>"
       - "{{BaseURL}}/?search=<body onload=alert(1)>"
       - "{{BaseURL}}/?search=<iframe src=javascript:alert(1)>"
@@ -20,6 +21,10 @@ requests:
       - "{{BaseURL}}/?search=<details open ontoggle=alert(1)>"
       - "{{BaseURL}}/?search=<marquee onstart=alert(1)>"
       - "{{BaseURL}}/?search=<math><mtext></mtext><mtext onmouseover=alert(1)>XSS</mtext></math>"
+
+    matchers-condition: or
+    stop-at-first-match: true
+
     matchers:
       - type: word
         words:
@@ -34,8 +39,14 @@ requests:
           - "<marquee onstart=alert(1)>"
           - "<math><mtext></mtext><mtext onmouseover=alert(1)>XSS</mtext></math>"
         part: body
-        name: "Se logra ejecutar XSS con múltiples vectores"
-
+        name: "Se detectó XSS reflejado"
+      
       - type: regex
         regex:
-          - ".*?<svg onload=alert\\(1\\)>.*?"
+          - "<script>alert\\(1\\)</script>"
+        part: body
+        name: "Reflejo de XSS con <script>alert(1)</script>"
+
+      - type: status
+        status:
+          - 200

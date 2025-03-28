@@ -31,7 +31,7 @@
     },
     {
       "numero": 2,
-      "path":"C:/users/fabia/tesisviu2025/templatesNuclei/XSS/XSS_DOM-BASED.yaml",
+      "path":"C:/users/fabia/tesisviu2025/templatesNuclei/XSS/XSS_DOM.yaml",
       "idtemplate": "xss-dom-based"
     }
   ]
