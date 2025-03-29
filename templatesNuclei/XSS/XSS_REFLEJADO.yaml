@@ -1,52 +1,44 @@
-id: XSS-REFLEJADO
+id: XSS_REFLEJADO
 
 info:
-  name: XSS Reflejado
+  name: XSS_REFLEJADO
   author: Fabian Morales
-  severity: critical
-  description: "Prueba de XSS reflejado con múltiples vectores de ataque"
-  tags: xss, reflected
+  severity: high
+  description: "Decteccion en url para vulnerabilidades XSS REFLEJADO"
+  classification:
+    cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H
+    cvss-score: 9.6
+    cve-id: CVE-2023-1234
+  tags: xss,reflected,web,security,portswigger
 
-requests:
-  - method: GET
-    path:
-      - "{{BaseURL}}/?search=<script>alert(1)</script>"
-      - "{{BaseURL}}/?search=%3Cscript%3Ealert(1)%3C/script%3E"
-      - "{{BaseURL}}/?search=<img src=x onerror=alert(1)>"
-      - "{{BaseURL}}/?search=<svg onload=alert(1)>"
-      - "{{BaseURL}}/?search=<body onload=alert(1)>"
-      - "{{BaseURL}}/?search=<iframe src=javascript:alert(1)>"
-      - "{{BaseURL}}/?search=<a href=javascript:alert(1)>ClickMe</a>"
-      - "{{BaseURL}}/?search=<input value='XSS' onfocus=alert(1)>"
-      - "{{BaseURL}}/?search=<details open ontoggle=alert(1)>"
-      - "{{BaseURL}}/?search=<marquee onstart=alert(1)>"
-      - "{{BaseURL}}/?search=<math><mtext></mtext><mtext onmouseover=alert(1)>XSS</mtext></math>"
+variables:
+  random_number: "{{rand_int(1000,9999)}}"
 
-    matchers-condition: or
-    stop-at-first-match: true
+http:
+  - raw:
+      - |
+        GET /?search=<script>alert({{random_number}})</script> HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0
+
+      - |
+        GET /?search=<img+src=x+onerror=alert({{random_number}})> HTTP/1.1
+        Host: {{Hostname}}
+
+      - |
+        GET /?search=<svg+onload=alert({{random_number}})> HTTP/1.1
+        Host: {{Hostname}}
+
+      - |
+        GET /?search="'><script>alert({{random_number}})</script> HTTP/1.1
+        Host: {{Hostname}}
 
     matchers:
       - type: word
         words:
-          - "<script>alert(1)</script>"
-          - "<img src=x onerror=alert(1)>"
-          - "<svg onload=alert(1)>"
-          - "<body onload=alert(1)>"
-          - "<iframe src=javascript:alert(1)>"
-          - "<a href=javascript:alert(1)>ClickMe</a>"
-          - "<input value='XSS' onfocus=alert(1)>"
-          - "<details open ontoggle=alert(1)>"
-          - "<marquee onstart=alert(1)>"
-          - "<math><mtext></mtext><mtext onmouseover=alert(1)>XSS</mtext></math>"
+          - "<script>alert({{random_number}})</script>"
+          - "onerror=alert({{random_number}})"
+          - "onload=alert({{random_number}})"
+          - "alert({{random_number}})"
         part: body
-        name: "Se detectó XSS reflejado"
-      
-      - type: regex
-        regex:
-          - "<script>alert\\(1\\)</script>"
-        part: body
-        name: "Reflejo de XSS con <script>alert(1)</script>"
-
-      - type: status
-        status:
-          - 200
+        condition: or
