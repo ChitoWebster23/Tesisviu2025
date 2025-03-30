@@ -102,7 +102,7 @@ def procesar_opcion(opcion):
 
             print("\nElija el tipo de ataque SQLi:")
             print("1. Basado en Payload clásicos (or 1=1 por ejemplo)")
-            print("2. Basado en timmpo")
+            print("2. Basado en tiempo")
 
             opcion = input("Seleccione una opción (1-2): ")
 

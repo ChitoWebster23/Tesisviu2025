@@ -2,9 +2,9 @@ id: sqli-boolean-based-post
 
 info:
   name: Boolean Based SQL Injection (POST)
-  author: serhatcck
+  author: Chito Webster basado en template de serhatcck
   severity: critical
-  description: Boolean Based SQLi via POST parameter 'admin'
+  description: SQLi sobre el username en el Post
   tags: sqli, dast
 
 flow: http(1) && http(2)
