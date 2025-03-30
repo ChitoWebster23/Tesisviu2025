@@ -76,10 +76,8 @@ def mostrar_menu():
     print("2. SQL Inyection")
     print("3. ByPass Authentication")
     print("4. Path Traversal ")
-    print("5. Access Control")
-    print("6. Command Injection")
-    print("7. XSS ")
-    print("8. CSRF")
+    print("5. XSS ")
+    print("6. CSRF")
     
     opcion = input("Seleccione una opción (1-8): ")
     return opcion
