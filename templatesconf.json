@@ -26,8 +26,8 @@
   "XSS": [
     {
       "numero": 1,
-      "path":"C:/users/fabia/tesisviu2025/templatesNuclei/XSS/xSS_REFLEJADO.yaml",
-      "idtemplate": "XSS-REFLEJADO"
+      "path":"C:/users/fabia/tesisviu2025/templatesNuclei/XSS/XSS_REFLEJADO.yaml",
+      "idtemplate": "XSS_REFLEJADO"
     },
     {
       "numero": 2,

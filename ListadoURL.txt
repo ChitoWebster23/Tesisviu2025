@@ -1,3 +1,1 @@
-http://testphp.vulnweb.com/artists.php?artist=2
-https://0ab100c204a0237d82c1833a00a800a4.web-security-academy.net/filter?category=Pets
-http://172.16.127.141/mutillidae/src/index.php?page=
+https://0a5600bb0427c108825fe30200a000c0.web-security-academy.net/
