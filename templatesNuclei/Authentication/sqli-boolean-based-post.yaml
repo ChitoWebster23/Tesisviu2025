@@ -30,7 +30,7 @@ http:
     path: 
       - "{{BaseURL}}"
    
-    body: "username={{injection}}"
+    body: "username={{injection}}&password="
 
     payloads:
       injection:
