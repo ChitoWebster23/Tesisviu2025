@@ -4,10 +4,8 @@ info:
   name: "PortSwigger DOM XSS via document.write() in search"
   author: "Fabian Morales"
   severity: "high"
-  description: "Detects the specific DOM XSS vulnerability in PortSwigger's lab using document.write()"
-  reference:
-    - "https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-document-write-sink"
-  tags: xss,dom,portswigger,lab,document-write
+  description: "Detecta casos de XSS DOM"
+  tags: xss,dom,lab,document-write
 
 http:
   - method: GET
@@ -17,8 +15,8 @@ http:
       - "{{BaseURL}}/?search=<script>alert(document.domain)</script>"
 
     headers:
-      User-Agent: "Mozilla/5.0"
-      Accept: "text/html,application/xhtml+xml"
+        User-Agent: "Mozilla/5.0"
+        Cookie: "PHPSESSID=19upvbuk15g4om4j268lo0ckep; security=low"
 
     matchers:
       - type: regex
@@ -29,9 +27,16 @@ http:
           - "<script>alert\\(document\\.domain\\)</script>"
         condition: or
 
+      - type: word
+        words:
+          - "document.location.href.indexOf"
+        part: body
+        condition: and
+
     extractors:
       - type: regex
         name: vulnerable_parameter
         regex:
           - "document\\.write\\(.*?search=([^&]+)"
+          - "default=([^&]+)"
         group: 1
