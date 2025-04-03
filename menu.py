@@ -172,7 +172,7 @@ def procesar_opcion(opcion):
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -var endpoint=/"+path,idTemplate)
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -var endpoint="+path,idTemplate)
                 
                 elif opcion == "2":
                     
