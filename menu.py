@@ -226,11 +226,9 @@ def procesar_opcion(opcion):
             except Exception as e:
                 print(f"Error inesperado: {e}")
 
-        case "5":
-            print("Seleccionaste la opción 5")
         case "6":
             print("Seleccionaste la opción 6")
-        case "7":
+        case "5":
             print("Seleccionaste la opción 7: XSS")
             # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)
             nombre_archivo = "ListadoURL.txt"
