@@ -73,13 +73,13 @@ def ejecutar_template(comando,titleTemplate):
 def mostrar_menu():
     print("\nMenú de Opciones:")
     print("1. Realizar Crawling")
-    print("2. SQL Inyection")
+    print("2. SQL Injection")
     print("3. ByPass Authentication")
     print("4. Path Traversal ")
     print("5. XSS ")
     print("6. CSRF")
     
-    opcion = input("Seleccione una opción (1-8): ")
+    opcion = input("Seleccione una opciósn (1-8): ")
     return opcion
 
 def procesar_opcion(opcion):
