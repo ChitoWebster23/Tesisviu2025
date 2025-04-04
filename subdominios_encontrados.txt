@@ -1,6 +1,0 @@
-www.metallica.com
-mail.metallica.com
-dashboard.metallica.com
-help.metallica.com
-store.metallica.com
-download.metallica.com
