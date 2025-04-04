@@ -107,6 +107,7 @@ def procesar_opcion(opcion):
             try:
                 if opcion == "1":
                     print("Analizando Vulnerabilidades...")
+                    
                     confTemplate = buscar_conf_template(titulovuln,opcion)
 
                     PathTemplate = confTemplate['path']
