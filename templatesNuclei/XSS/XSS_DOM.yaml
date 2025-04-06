@@ -1,7 +1,7 @@
 id: xss-dom-based
 
 info:
-  name: "PortSwigger DOM XSS via document.write() in search"
+  name: "DOM XSS para validar vulnerabilidad"
   author: "Fabian Morales"
   severity: "high"
   description: "Detecta casos de XSS DOM"
