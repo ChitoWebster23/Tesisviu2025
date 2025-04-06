@@ -73,7 +73,7 @@ def ejecutar_template(comando,titleTemplate):
 def mostrar_menu():
     print("\nMenú de Opciones:")
     print("1. Realizar Crawling")
-    print("2. SQL Inyection")
+    print("2. SQL Injection")
     print("3. ByPass Authentication")
     print("4. Path Traversal ")
     print("5. XSS ")
@@ -107,6 +107,7 @@ def procesar_opcion(opcion):
             try:
                 if opcion == "1":
                     print("Analizando Vulnerabilidades...")
+                    
                     confTemplate = buscar_conf_template(titulovuln,opcion)
 
                     PathTemplate = confTemplate['path']
@@ -172,7 +173,7 @@ def procesar_opcion(opcion):
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -var endpoint=/"+path,idTemplate)
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -var endpoint="+path,idTemplate)
                 
                 elif opcion == "2":
                     
