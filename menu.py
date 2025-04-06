@@ -229,6 +229,22 @@ def procesar_opcion(opcion):
 
         case "6":
             print("Seleccionaste la opción 6")
+            nombre_archivo = "ListadoURL.txt"
+            titulovuln = "CSRF"
+            opcion = 1
+            print("Analizando Vulnerabilidades...")
+            confTemplate = buscar_conf_template(titulovuln,opcion)
+
+            PathTemplate = confTemplate['path']
+            idTemplate = confTemplate['idtemplate']
+
+
+            # Intentar abrir el archivo en modo lectura
+            with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+            # Leer línea por línea e imprimir
+                for linea in archivo:
+                    URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
+                    ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+"",idTemplate)
         case "5":
             print("Seleccionaste la opción 7: XSS")
             # Nombre del archivo (asegúrate de que exista en la misma carpeta o usa la ruta completa)

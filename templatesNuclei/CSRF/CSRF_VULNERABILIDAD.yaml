@@ -1,41 +1,60 @@
-id: dvwa-csrf-validado
+id: CSRF_VALIDADO
 
 info:
-  name: Test CSRF para DVWA con manejo de sesión
+  name: CSRF - Cambio de contraseña sin token
   severity: high
-  author: usuario
+  author: Fabian Morales
   description: |
-    Verifica vulnerabilidad CSRF en DVWA con manejo adecuado de cookies
-    y seguimiento de redirecciones
+    Detecta vulnerabilidades CSRF en funcionalidades de cambio de contraseña
+    que no implementan tokens anti-CSRF.
+  reference:
+    - https://owasp.org/www-community/attacks/csrf
+  tags: csrf,web,security,auth
+
+variables:
+  new_password: "nuclei_test_{{rand_int(1000,9999)}}"
 
 http:
   - raw:
       - |
-        GET /dvwa/login.php HTTP/1.1
+        GET /login HTTP/1.1
         Host: {{Hostname}}
-        Cookie: security=low
+        User-Agent: Mozilla/5.0
 
       - |
-        POST /dvwa/login.php HTTP/1.1
+        POST /login HTTP/1.1
         Host: {{Hostname}}
         Content-Type: application/x-www-form-urlencoded
-        Cookie: security=low
+        User-Agent: Mozilla/5.0
 
         username=admin&password=password&Login=Login
 
       - |
-        GET /dvwa/vulnerabilities/csrf/ HTTP/1.1
+        GET /csrf/ HTTP/1.1
         Host: {{Hostname}}
-        Cookie: security=low; {{session_cookie}}
+        User-Agent: Mozilla/5.0
 
       - |
-        GET /dvwa/vulnerabilities/csrf/?password_new=nuclei_test&password_conf=nuclei_test&Change=Change HTTP/1.1
+        GET /csrf/?password_new=contraseña&password_conf=contraseña&Change=Change HTTP/1.1
         Host: {{Hostname}}
-        Cookie: security=low; {{session_cookie}}
+        User-Agent: Mozilla/5.0
 
     cookie-reuse: true
     matchers:
       - type: word
         words:
           - "Password Changed"
+          - "contraseña cambiada"
+          - "password changed"
+          - "successfully changed"
         part: body
+        condition: or
+
+    extractors:
+      - type: regex
+        name: csrf_token
+        part: body
+        regex:
+          - 'name="user_token" value="([a-f0-9]{32})"'
+          - 'csrf_token" value="([^"]+)"'
+        group: 1
