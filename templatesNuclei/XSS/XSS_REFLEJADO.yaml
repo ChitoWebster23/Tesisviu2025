@@ -49,7 +49,7 @@ http:
     headers:
         User-Agent: "Mozilla/5.0"
         Accept: "text/html,application/xhtml+xml"
-        Cookie: "PHPSESSID=19upvbuk15g4om4j268lo0ckep; security=low"
+        Cookie: "PHPSESSID=gjhjkmam8d4gnuhjaauf7v8gdt; security=low"
 
     matchers:
       - type: word

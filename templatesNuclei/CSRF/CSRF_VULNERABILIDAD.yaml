@@ -12,7 +12,7 @@ info:
   tags: csrf,web,security,auth
 
 variables:
-  new_password: "nuclei_test_{{rand_int(1000,9999)}}"
+  new_password: "contraseña"
 
 http:
   - raw:
@@ -35,7 +35,7 @@ http:
         User-Agent: Mozilla/5.0
 
       - |
-        GET /csrf/?password_new=contraseña&password_conf=contraseña&Change=Change HTTP/1.1
+        GET /csrf/?password_new=password&password_conf=password&Change=Change HTTP/1.1
         Host: {{Hostname}}
         User-Agent: Mozilla/5.0
 

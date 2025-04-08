@@ -1,1 +1,2 @@
-http://testphp.vulnweb.com/artists.php?artist=2
+http://localhost/dvwa/vulnerabilities/xss_r/
+https://0a1e00020319d6cb808a033f00cf0095.web-security-academy.net/

@@ -39,7 +39,7 @@
     {
       "numero": 1,
       "path":"C:/users/fabia/tesisviu2025/templatesNuclei/CSRF/CSRF_VULNERABILIDAD.yaml",
-      "idtemplate": "XSS_REFLEJADO"
+      "idtemplate": "CSRF_VALIDADO"
     }
     ],
   "PathTraversal": [
