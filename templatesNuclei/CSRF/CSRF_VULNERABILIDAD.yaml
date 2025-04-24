@@ -3,7 +3,7 @@ info:
   name: CSRF para DVWA
   author: Fabian Morales
   severity: LOW
-  description: CSRF Basico para los que contienen token.
+  description: CSRF Basico para los que NO contienen token.
 
 variables:
   new_password: "NuevaContraseña123."
@@ -21,3 +21,4 @@ requests:
       - type: status
         status:
           - 200
+
