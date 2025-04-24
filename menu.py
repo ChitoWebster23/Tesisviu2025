@@ -241,7 +241,7 @@ def procesar_opcion(opcion):
 
             try:
                 if opcion == "1":
-                    cookieSession = input("Ingrese PHPSESSID:")
+                    cookieSession = input("Ingrese cookie (nombre=valor;nombre=valor):")
                     confTemplate = buscar_conf_template(titulovuln,opcion)
                     PathTemplate = confTemplate['path']
                     idTemplate = confTemplate['idtemplate']
@@ -253,7 +253,7 @@ def procesar_opcion(opcion):
                     # Leer línea por línea e imprimir
                         for linea in archivo:
                             URL = linea.strip()  # .strip() elimina los saltos de línea adicionales
-                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate,""+idTemplate+" -h Cookie PHPSESSID="+cookieSession)
+                            ejecutar_template("nuclei -u "+URL+" -t "+PathTemplate+" -H Cookie:"+cookieSession,idTemplate)
                 
                 elif opcion == "2":
 
