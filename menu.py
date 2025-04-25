@@ -79,7 +79,7 @@ def mostrar_menu():
     print("5. XSS ")
     print("6. CSRF")
     
-    opcion = input("Seleccione una opción (1-8): ")
+    opcion = input("Seleccione una opción (1-6): ")
     return opcion
 
 def procesar_opcion(opcion):

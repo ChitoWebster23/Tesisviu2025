@@ -1,12 +1,10 @@
 id: CSRF_VALIDADO
 info:
-  name: PRUEBAS CSRF DVWA
+  name: PRUEBAS CSRF
   author: Fabian Morales
   severity: high
   description: |
-    Detecta CSRF en DVWA para todos los niveles de seguridad:
-    - Low: Sin protección
-    - Medium: Verifica Referer
+    Detecta CSRF para cambio de contraseña
   tags: CSRF, DVWA
 
 variables:
@@ -15,14 +13,7 @@ variables:
 requests:
   - method: GET
     path:
-      - "{{BaseURL}}"
-
-  - method: GET
-    path:
-      # Low y medium
       - "{{BaseURL}}/?password_new={{new_password}}&password_conf={{new_password}}&Change=Change"
-    headers:
-      Referer: "{{target_url}}"
     
     matchers:
       - type: regex
