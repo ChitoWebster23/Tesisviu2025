@@ -15,7 +15,7 @@ Este proyecto forma parte del Trabajo de Fin de Máster en Ciberseguridad (2025)
   - CSRF
 - Integración con Katana para crawling de URLs objetivo.
 - Análisis masivo sobre múltiples URLs.
-- Uso de plantillas YAML personalizadas y configurables.
+- Uso de plantillas YAML personalizadas y configurables Nuclei.
 - Presentación interactiva de resultados en consola.
 
 ## 🧰 Tecnologías utilizadas
@@ -54,9 +54,7 @@ Configura el archivo templatesconf.json con las rutas completas de los templates
 Coloca ListadoURL.txt en el mismo directorio de Menu.py (para URLs a analizar).
 
 ▶️ Ejecución
-bash
-Copiar
-Editar
+
 python Menu.py
 Desde el menú puedes:
 
