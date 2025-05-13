@@ -1,1 +1,2 @@
-http://testphp.vulnweb.com/artists.php?artist=2
+https://0a9600180422e233b58ac68700e300f3.web-security-academy.net/
+https://0a93001703958f2480f16c4c00270061.web-security-academy.net/filter?category=Pets
