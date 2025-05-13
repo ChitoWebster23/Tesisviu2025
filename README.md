@@ -86,8 +86,7 @@ Análisis automatizado en entornos de pruebas y formación (DVWA, HackTheBox, et
 
 👥 Autores
 Luis Webster – @ChitoWebster23
-
-Fabián Morales
+Fabián Morales - @Elffabi
 
 📝 Licencia
 Este proyecto se entrega como parte de un trabajo académico. Uso libre para fines educativos y de investigación. Para propósitos comerciales, contactar con los autores.
