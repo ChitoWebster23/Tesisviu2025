@@ -82,7 +82,8 @@ Participación en programas de Bug Bounty
 
 Análisis automatizado en entornos de pruebas y formación (DVWA, HackTheBox, etc.)
 
-🔗 [Ver video de demostración](https://www.youtube.com/watch?v=c8V_r2bL0DA)
+[![Ver video](https://img.youtube.com/vi/c8V_r2bL0DA/0.jpg)](https://www.youtube.com/watch?v=c8V_r2bL0DA)
+
 
 
 👥 Autores
